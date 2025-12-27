@@ -4,18 +4,16 @@ const path = require("path");
 const { v4: uuidv4 } = require('uuid');
 const methodOverride = require('method-override');
 
-const PORT = 5000;
-
+// Middleware
 app.use(express.urlencoded({ extended: true }));
-
 app.use(methodOverride('_method'));
 
+// View engine setup
 app.set('view engine', 'ejs');
+app.set("views", path.join(__dirname, 'views'));
 
-app.set("views",path.join(__dirname , 'views'));
-
-app.set(express.static(path.join(__dirname , 'public')))
-
+// ✅ FIXED: Use app.use() not app.set() for static files
+app.use(express.static(path.join(__dirname, 'public')));
 let expenses = [
     {
         id: "e1a9b8c7-d6e5-4f3a-8b2c-1d0e9f8a7b6c",
@@ -187,5 +185,11 @@ app.post("/expense" , (req , res )=>{
     res.render("index.ejs" , {expenses , Total_Expenses});
 })
 
-const port = process.env.port || 5000;
-app.listen(port, () => console.log(`Server running on port ${port}`));
+// Export for Vercel
+module.exports = app;
+
+// Local development
+if (require.main === module) {
+    const port = process.env.PORT || 5000;
+    app.listen(port, () => console.log(`Server running on port ${port}`));
+}
