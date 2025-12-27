@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            padding: 30px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        ol {
+            list-style: none;
+            border: 1px solid #ddd;
+            padding: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 800px;
+            background: #ffffff;
+            border-radius: 8px;
+        }
+
+        li {
+            border: 1px solid #ccc;
+            padding: 15px;
+            width: fit-content;
+            border-radius: 6px;
+            background: #fafafa;
+        }
+
+        li span {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .actions {
+            /* margin-top: 10px; */
+            display: flex;
+            flex-direction: row;
+            gap: 6px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .edit-btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .details-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .create-btn {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .head-main{
+            font-size: 22px; 
+            font-weight: 600; 
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+    </style>
+<body>
+    <div class="head-main">   
+        <h1 style="text-align: center; margin: 0%;"> List of Expenses </h1>  
+        <form class="actions" style="gap: 10px; " action="/expense/add" method="get">
+            <button class="edit-btn">Add New Expense</button>
+            <p style="background-color: rgb(55, 57, 59) ; margin: 0px; padding: 10px; font-size: 20px; font-weight: 600; color: #c70f0f;"> <span style="color: rgb(255, 255, 255); font-size: 22px; font-weight: 600;">Total Expense = </span> $<%=Total_Expenses %> </p>
+        </form>  
+        <div class="actions">
+            <form class="actions" method="get" action="/expense" style="margin-bottom: 20px ; ">
+                <button  class="details-btn"> All  </button>
+            </form>
+            <form class="actions" method="get" action="/expense/daily/filter" style="margin-bottom: 20px ; ">
+                <button class="edit-btn">Today</button>
+            </form>
+            <form class="actions" method="get" action="/expense/monthly/filter" style="margin-bottom: 20px ; ">
+                <button class="edit-btn">This Month</button>
+            </form>
+            <form class="actions" method="get" action="/expense/yearly/filter" style="margin-bottom: 20px ; ">
+                <button class="edit-btn">This Year</button>
+            </form>
+            
+        </div>
+    </div>
+    <ol style="margin: auto;">
+        <% for(expense of expenses) { %>
+            <li>
+                <p> <span style="font-size: 18px; font-weight: 600;">Expense Title: </span>  <%= expense.title %> </p>
+                <p> <span style="font-size: 18px; font-weight: 600;">Amount: </span>  <%= expense.amount %> </p>
+                <p> <span style="font-size: 18px; font-weight: 600;">Category : </span>  <%= expense.category %> </p>
+                <p> <span style="font-size: 18px; font-weight: 600;">Date : </span>  <%= expense.date %> </p>
+                <div class="actions">
+                    
+                    <form action="/expense/<%= expense.id %>/detail" method="get">
+                        <button class="details-btn">View in Detail</button>
+                    </form>
+                    <form action="/expense/<%= expense.id %>/edit" method="get">
+                        <button class="edit-btn">Edit</button>
+                    </form>
+                    <form action="/expense/<%= expense.id %>/delete" method="get">
+                        <button class="delete-btn">Delete</button>
+                    </form>
+                </div>
+            </li>
+        <% } %>
+    </ol>
+</body>
+</html>
